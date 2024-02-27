@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>To-Do List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="head">
+        <h1>To-Do List</h1>
+        <div style="display: flex; align-items: center;">
+            <h3>User</h3>
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: red;">
+                Log out
+            </a>
+        </div>
+    </div>
+
+    <div class="task-add">
+        <form id="task-form" method="post">
+            <div class="form1">
+                <input type="text" name="name" placeholder="Add Task...">
+                <input type="date" name="date">
+                <select name="status">
+                    <option class="opt">
+                        Not started
+                    </option>
+                    <option class="opt">
+                        In progress
+                    </option>
+                    <option class="opt">
+                        Completed
+                    </option>
+                </select>
+            </div>
+            <div class="fomr1">
+                <input type="text" name="details" placeholder="Details ...">
+                <button type="submit" class="btn">Add Task</button>
+            </div>
+        </form>
+    </div>
+    <hr style="margin: 10px 5px;">
+    {% for task in tasks %}
+        <div class="task">
+            <ul id="task-list">
+                <li>
+                    <div> {# style="text-decoration-line: line-through" #}
+                        {{ task.title|truncatechars:32 }}
+                    </div>
+                    <div>
+                        <input type="text" value="{{ task.status }}" readonly>
+                        {# style="background-color: green; color: white" #}
+                        <input type="date" value="{{ task.deadline|date:'Y-m-d' }}" readonly>
+                        <button type="submit" class="edit"><a href="/edit/">Edit</a></button>
+                        <button type="submit" class="delete"><a href="/delete/">Delete</a></button>
+                    </div>
+                </li>
+            </ul>
+            <ul class="details">
+                {{ task.description }}
+                {# style="text-decoration-line: line-through" #}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
